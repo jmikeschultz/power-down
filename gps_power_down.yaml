@@ -1,0 +1,5 @@
+enable: true
+target_lat: 40.177876667
+target_lon: -75.236671667
+max_miles: 0.1
+shutdown_wait_mins: 10

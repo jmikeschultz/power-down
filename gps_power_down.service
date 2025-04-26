@@ -1,0 +1,13 @@
+[Unit]
+Description=Shutdown Near Home Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/home/mike/power-down/venv/bin/python /home/mike/power-down/gps_power_down.py
+Restart=always
+User=mike
+WorkingDirectory=/home/mike/power-down
+
+[Install]
+WantedBy=multi-user.target
