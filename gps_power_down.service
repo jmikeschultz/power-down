@@ -1,5 +1,5 @@
 [Unit]
-Description=Shutdown Near Home Service
+Description=GPS Power Down Service
 After=network.target
 
 [Service]

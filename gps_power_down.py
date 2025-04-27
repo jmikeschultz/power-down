@@ -57,8 +57,8 @@ def run():
 
         if not config.get("enable", True):
             log.info("gps_power_down disabled via config")
-            shutdown_timer_start = None
-            time.sleep(10)
+            shutdown_minute_counter = None
+            time.sleep(ONE_MINUTE)            
             continue
 
         shutdown_wait_mins = max(config.get("shutdown_wait_mins", 10), MIN_WAIT_MINS) # don't let be too small!
@@ -68,13 +68,13 @@ def run():
 
         if target_lat is None or target_lon is None:
             log.error("Missing target lat/lon in config")
-            time.sleep(check_interval_secs)
+            time.sleep(ONE_MINUTE)
             continue
 
         gps = get_gps()
         if not gps:
             log.info("No GPS position available")
-            time.sleep(check_interval_secs)
+            time.sleep(ONE_MINUTE)
             continue
 
         target = (target_lat, target_lon)
@@ -94,11 +94,11 @@ def run():
                 shutdown()
                 break                
 
-        else:
-            if shutdown_timer_start is not None:
+        else: # far away
+            if shutdown_minute_counter is not None:
                 log.info("Moved away from target, cancelling shutdown")
                 subprocess.run(["wall", "Moved away from target, cancelling shutdown"])
-                shutdown_timer_start = None
+                shutdown_minute_counter = None
 
         time.sleep(ONE_MINUTE)
 
